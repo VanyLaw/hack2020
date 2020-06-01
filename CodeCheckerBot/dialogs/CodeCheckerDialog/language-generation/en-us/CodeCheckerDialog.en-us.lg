@@ -1,0 +1,36 @@
+[import](common.lg)
+
+
+# TextInput_Prompt_8b9QBM()
+- No problem! What's your name?
+
+
+
+# DateTimeInput_Prompt_rGyYVD()
+- Hi ${user.name}, which date would you like to see the changes in Bot Builder Samples repo?
+
+
+# SendActivity_pTdODM()
+- ${user.date[0].value}
+
+
+
+
+# SendActivity_cAz3BI()
+- ${dialog.api_response.content}
+# SendActivity_MXYQVp()
+- Your HTTP request failed. Please check your code. 
+# SendActivity_zRnbJK()
+- ${user.name}, there is no change in the Bot Builder Samples repo on ${user.date[0].value} and you do not need to update any docs.
+# SendActivity_tj25tU()
+- ${user.name}, the changes since ${user.date[0].value} on samples are as follows: ${dialog.api_response.content[0].samples}
+# SendActivity_2SyLUs()
+- ${user.name}, you need to update the following articles that reference code from the samples: ${dialog.api_response.content[0].file}
+
+
+
+# ConfirmInput_Prompt_gVFjVo()
+- Do you want me to send an email to notify the article author ${dialog.api_response.content[0].author}? 
+
+
+

@@ -1,0 +1,70 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "JCewdK",
+    "name": "EmailDialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "TeyKHT"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "MXf9ti"
+          },
+          "activity": "${SendActivity_MXf9ti()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tU6MYq"
+          },
+          "assignments": [
+            {
+              "property": "dialog.email.subject",
+              "value": "Need to change your Doc"
+            },
+            {
+              "property": "dialog.email.content",
+              "value": "please change your ${user.response}"
+            },
+            {
+              "property": "dialog.email.recipients",
+              "value": "wenyluo@microsoft.com"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "aaqB8R"
+          },
+          "activity": "${SendActivity_aaqB8R()}"
+        },
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "9iST2P"
+          },
+          "activityProcessed": true,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "id": "http://yuesuemailskill0207-gjvga67.azurewebsites.net/manifest/manifest-1.0.json",
+          "resultProperty": "dialog.result",
+          "activity": "${BeginSkill_Activity_9iST2P()}",
+          "skillEndpoint": "https://yuesuemailskill0207-gjvga67.azurewebsites.net/api/messages",
+          "skillAppId": "79432da8-0f7e-4a16-8c23-ddbba30ae85d"
+        }
+      ]
+    }
+  ],
+  "generator": "EmailDialog.lg"
+}

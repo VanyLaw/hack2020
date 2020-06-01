@@ -1,0 +1,13 @@
+[import](common.lg)
+
+# SendActivity_MXf9ti()
+- Send email to ...
+
+# BeginSkill_Activity_9iST2P()
+[Activity
+    type=event
+    name = sendEmail
+    value = Some Value
+]
+# SendActivity_aaqB8R()
+- ${dialog.email}

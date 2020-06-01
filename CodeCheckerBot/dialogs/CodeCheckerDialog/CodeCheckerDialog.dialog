@@ -1,0 +1,184 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "DoCr0i",
+    "name": "CodeCheckerDialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "GGb06U"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "8b9QBM"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_8b9QBM()}",
+          "property": "user.name"
+        },
+        {
+          "$kind": "Microsoft.DateTimeInput",
+          "$designer": {
+            "id": "rGyYVD"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${DateTimeInput_Prompt_rGyYVD()}",
+          "property": "user.date"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "pTdODM"
+          },
+          "activity": "${SendActivity_pTdODM()}"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "KkwPvH"
+          },
+          "method": "GET",
+          "url": "http://localhost:3978/api/check?date=${user.date[0].value}",
+          "resultProperty": "dialog.api_response",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "weKCcr"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "DRMutu"
+              },
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "zRnbJK"
+                  },
+                  "activity": "${SendActivity_zRnbJK()}"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "tj25tU"
+                  },
+                  "activity": "${SendActivity_tj25tU()}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "2SyLUs"
+                  },
+                  "activity": "${SendActivity_2SyLUs()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "cwb7F4"
+                  },
+                  "property": "user.email.recip",
+                  "value": "${dialog.api_response.content[0].author}@microsoft.com"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "rOrJ3M"
+                  },
+                  "assignments": [
+                    {
+                      "property": "user.response",
+                      "value": "${dialog.api_response.content}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.ConfirmInput",
+                  "$designer": {
+                    "id": "gVFjVo"
+                  },
+                  "defaultLocale": "en-us",
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${ConfirmInput_Prompt_gVFjVo()}",
+                  "choiceOptions": {
+                    "includeNumbers": true,
+                    "inlineOrMore": ", or ",
+                    "inlineOr": " or ",
+                    "inlineSeparator": ", "
+                  },
+                  "property": "user.answer"
+                },
+                {
+                  "$kind": "Microsoft.EmitEvent",
+                  "$designer": {
+                    "id": "k03uyw"
+                  },
+                  "eventName": "SendEmail",
+                  "bubbleEvent": true
+                }
+              ],
+              "condition": "isString(dialog.api_response)"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "cAz3BI"
+              },
+              "activity": "${SendActivity_cAz3BI()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "MXYQVp"
+              },
+              "activity": "${SendActivity_MXYQVp()}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "R1tIeO",
+        "name": "SendEmail"
+      },
+      "event": "SendEmail",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "UGVDpW"
+          },
+          "activityProcessed": true,
+          "dialog": "EmailDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "CodeCheckerDialog.lg"
+}
